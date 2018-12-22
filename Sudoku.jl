@@ -1,5 +1,4 @@
 
-using Printf
 @enum SudokuResult begin
     found
     notfound
@@ -208,4 +207,19 @@ if length(ARGS) == 1
     end
 else
     usage()
+end
+Base.@ccallable function julia_main(ARGS::Vector{String})::Cint
+    if length(ARGS) == 1
+        try
+            s = readSudoku(ARGS[1])
+            s1 = trySolve(s)
+            println()
+            display(s1.board)
+        catch
+            usage()
+            exit()
+        end
+    else
+        usage()
+    end
 end
